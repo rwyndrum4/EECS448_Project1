@@ -134,6 +134,20 @@ const model =
     winner: 0,
 
     /**
+     * variable in charge of the storing of the user input for the gamemode. 1 for AI, 2 for Multiplayer
+     * @member AIgame
+     * @type {number}
+     */
+    AIgame: 0,
+
+    /**
+     * variable in charge of the storing of the user input for AI difficulty. 1,2,3 -> easy, medium, hard
+     * @member AIgame
+     * @type {number}
+     */
+    AIDifficulty: 0,
+
+    /**
      * This function is a function in charge of setup
      *
      * @function setupPhase
@@ -187,22 +201,45 @@ const model =
      */
     runPrompt: function()
     {
-        let correct = 0
-        do
-        {
-            model.promptVar = prompt("How many ships do you want to play with! (Minimum: 1, Maximum: 6")
-            if(model.promptVar >= 1 && model.promptVar <= 6)
-            {
+        model.AIgame = prompt("Welcome to Battleship!\nIs this a singleplayer game (1) or Multiplayer (2) ?")
+        do{
+          if(model.AIgame == 2) {
+          let correct = 0
+          do
+          {
+              model.promptVar = prompt("How many ships do you want to play with! (Minimum: 1, Maximum: 6")
+              if(model.promptVar >= 1 && model.promptVar <= 6){
                 correct = 1
-                for(let i=0; i<model.promptVar; i++)
-                {
-                    model.shipsP1.push({location: [], hits: [], shipType: i+1})
-                    model.shipsP2.push({location: [], hits: [], shipType: i+1})
+                for(let i=0; i<model.promptVar; i++){
+                  model.shipsP1.push({location: [], hits: [], shipType: i+1})
+                  model.shipsP2.push({location: [], hits: [], shipType: i+1})
                 }
                 model.playerShips = model.shipsP1
                 model.playerMisses = model.missesP1
-            }
+              }
         } while(correct == 0)
+      }
+      else if (model.AIgame == 1){
+        let correct = 0
+        //AI game setup
+        do
+        {
+            model.promptVar = prompt("How many ships do you want to play with! (Minimum: 1, Maximum: 6")
+            if(model.promptVar >= 1 && model.promptVar <= 6){
+              correct = 1
+              for(let i=0; i<model.promptVar; i++){
+                model.shipsP1.push({location: [], hits: [], shipType: i+1})
+                model.shipsP2.push({location: [], hits: [], shipType: i+1})
+              }
+              model.playerShips = model.shipsP1
+              model.playerMisses = model.missesP1
+            }
+      } while(correct == 0)
+      }
+      else{
+        alert("Please enter a valid input, 1 or 2.")
+      }
+    }while(model.AIgame != 1 && model.AIgame != 2)
     },
 
     /**
@@ -214,6 +251,7 @@ const model =
      */
     changeTurn: function ()
     {
+      if(model.AIgame == 1){
         if(model.player == 1)
         {
             model.player = 0
@@ -230,6 +268,40 @@ const model =
             model.missesP1 = model.playerMisses
             model.playerMisses = model.missesP2
         }
+      }
+      else{
+
+        if(model.player == 1) //This would be the AI
+        {
+            model.player = 0
+            model.shipsP2 = model.playerShips
+            model.playerShips = model.shipsP1
+            model.missesP2 = model.playerMisses
+            model.playerMisses = model.missesP1
+        }
+        else //Player
+        {
+            model.player = 1
+            model.shipsP1 = model.playerShips
+            model.playerShips = model.shipsP2
+            model.missesP1 = model.playerMisses
+            model.playerMisses = model.missesP2
+            // In here we can add the AI automatically placing its pieces and firing
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+      }
     },
 
     /**
@@ -246,6 +318,11 @@ const model =
         {
             model.playerShips[model.placementCounter-1].location.push(model.boxClicked)
             console.log(model.playerShips)
+            /*
+
+              Sounds can be added here
+
+            */
             return true
         }
         else
@@ -275,10 +352,6 @@ const model =
                     console.log(model.playerShips)
                     model.pushedItems += 1
                     model.boxClicked = model.boxClicked+tempVar
-                    /*Implementation for adding sounds here?
-                    *
-                    *
-                    */
                 }
                 else
                 {
@@ -495,7 +568,7 @@ const model =
 
     /**
      * This function checks for a winner
-     * 
+     *
      * @function checkWinner
      * @pre none
      * @post checks to determine if they is a winner after each turn. Returns true if there is a winner and false if there isn't one

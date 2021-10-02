@@ -148,10 +148,7 @@ const view =
         {
             if(this.getAttribute('data-id') < 100)
             {
-                if(model.boxClicked == -1)
-                {
-                    view.displayOrientation()
-                }
+                view.displayOrientation()
                 let temp = this.getAttribute('data-id')
                 model.boxClicked = parseInt(temp)
                 view.clearLeftBoard()

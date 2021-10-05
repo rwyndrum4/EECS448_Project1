@@ -136,20 +136,6 @@ const model =
 
 
     /**
-     * variable in charge of the storing of the user input for the gamemode. 1 for AI, 2 for Multiplayer
-     * @member AIgame
-     * @type {number}
-     */
-    AIgame: 0,
-
-    /**
-     * variable in charge of the storing of the user input for AI difficulty. 1,2,3 -> easy, medium, hard
-     * @member AIgame
-     * @type {number}
-     */
-    AIDifficulty: 0,
-
-    /**
      * This function is a function in charge of setup
      *
      * @function setupPhase
@@ -204,45 +190,22 @@ const model =
      */
     runPrompt: function()
     {
-        model.AIgame = prompt("Welcome to Battleship!\nIs this a singleplayer game (1) or Multiplayer (2) ?")
-        do{
-          if(model.AIgame == 2) {
-          let correct = 0
-          do
-          {
-              model.promptVar = prompt("How many ships do you want to play with! (Minimum: 1, Maximum: 6")
-              if(model.promptVar >= 1 && model.promptVar <= 6){
-                correct = 1
-                for(let i=0; i<model.promptVar; i++){
-                  model.shipsP1.push({location: [], hits: [], shipType: i+1})
-                  model.shipsP2.push({location: [], hits: [], shipType: i+1})
-                }
-                model.playerShips = model.shipsP1
-                model.playerMisses = model.missesP1
-              }
-        } while(correct == 0)
-      }
-      else if (model.AIgame == 1){
         let correct = 0
-        //AI game setup
         do
         {
             model.promptVar = prompt("How many ships do you want to play with! (Minimum: 1, Maximum: 6")
-            if(model.promptVar >= 1 && model.promptVar <= 6){
-              correct = 1
-              for(let i=0; i<model.promptVar; i++){
-                model.shipsP1.push({location: [], hits: [], shipType: i+1})
-                model.shipsP2.push({location: [], hits: [], shipType: i+1})
-              }
-              model.playerShips = model.shipsP1
-              model.playerMisses = model.missesP1
+            if(model.promptVar >= 1 && model.promptVar <= 6)
+            {
+                correct = 1
+                for(let i=0; i<model.promptVar; i++)
+                {
+                    model.shipsP1.push({location: [], hits: [], shipType: i+1})
+                    model.shipsP2.push({location: [], hits: [], shipType: i+1})
+                }
+                model.playerShips = model.shipsP1
+                model.playerMisses = model.missesP1
             }
-      } while(correct == 0)
-      }
-      else{
-        alert("Please enter a valid input, 1 or 2.")
-      }
-    }while(model.AIgame != 1 && model.AIgame != 2)
+        } while(correct == 0)
     },
 
     /**
@@ -254,7 +217,6 @@ const model =
      */
     changeTurn: function ()
     {
-      if(model.AIgame == 1){
         if(model.player == 1)
         {
             model.player = 0
@@ -271,40 +233,6 @@ const model =
             model.missesP1 = model.playerMisses
             model.playerMisses = model.missesP2
         }
-      }
-      else{
-
-        if(model.player == 1) //This would be the AI
-        {
-            model.player = 0
-            model.shipsP2 = model.playerShips
-            model.playerShips = model.shipsP1
-            model.missesP2 = model.playerMisses
-            model.playerMisses = model.missesP1
-        }
-        else //Player
-        {
-            model.player = 1
-            model.shipsP1 = model.playerShips
-            model.playerShips = model.shipsP2
-            model.missesP1 = model.playerMisses
-            model.playerMisses = model.missesP2
-            // In here we can add the AI automatically placing its pieces and firing
-
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-      }
     },
 
     /**
@@ -321,11 +249,6 @@ const model =
         {
             model.playerShips[model.placementCounter-1].location.push(model.boxClicked)
             console.log(model.playerShips)
-            /*
-
-              Sounds can be added here
-
-            */
             return true
         }
         else
@@ -475,6 +398,8 @@ const model =
             model.playerShips[model.shipType-1].hits.push(model.boxClickedRight)
             model.firstGamePhase = 2
             model.error = 0
+            const effect = new Audio('./audio/explosion.mp3')
+            effect.play()
         }
         else if(model.shipType != -1)
         {
@@ -490,6 +415,8 @@ const model =
             model.missCount +=1
             model.firstGamePhase = 2
             model.error = 0
+            const effect = new Audio('./audio/splash.mp3')
+            effect.play()
         }
         else
         {
@@ -601,6 +528,8 @@ const model =
         if(model.winnerCount == model.promptVar)
         {
             model.winner = model.player
+            const effect = new Audio('./audio/victory.mp3')
+            effect.play()
             return true
         }
         model.winnerCount = 0
@@ -652,7 +581,7 @@ const model =
       * @type {number}
       */
      aidifficulity: 0,
- 
+
      /**
       * This function runs the prompt to choose the part of AI
       *
@@ -660,7 +589,7 @@ const model =
       * @pre the setup phase starts
       * @post prompts the user to chose a number between 1 and 2 for model and 1-3 for AI difficulity
       */
-     
+
      modelchoose: function()
       {
           let correct = 0
@@ -675,7 +604,7 @@ const model =
                      {
                          this.aidifficulity = prompt("which difficulitiy of AI opponent do you want to choose? \n(1.easy 2.medium 3.hard)")
                      }while (this.aidifficulity != 1 && this.aidifficulity != 2 && this.aidifficulity != 3);
-                     
+
                  }
                   correct = 1
               }
@@ -683,5 +612,3 @@ const model =
      },
 
 }
-
-

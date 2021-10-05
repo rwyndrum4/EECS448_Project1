@@ -103,8 +103,11 @@ const view =
             let temp = document.createElement("img")
             let temp2 = document.createElement("img")
             temp.setAttribute('src', 'images/blank2.png')
+            temp.setAttribute('id',i)
             temp.setAttribute('data-id', i)
+            temp.onclick = view.boxClickEvent
             temp2.setAttribute('src', 'images/blank2.png')
+            temp2.setAttribute('id',100+i)
             temp2.setAttribute('data-id', 100+i)
             temp.addEventListener('click', view.boxClickEvent)
             temp2.addEventListener('click', view.boxClickEvent)
@@ -336,6 +339,7 @@ const view =
         subButton.innerText = "Submit"
         subButton.setAttribute('data-button', 2)
 
+        
         //Event listener for hitting the submit button
         subButton.addEventListener('click', () =>
         {
@@ -397,8 +401,29 @@ const view =
                         model.turnFunc()
                     }
                 }
+                else if(model.player != 0 && model.modelprompt == 2) // if it is ai mode
+                {   
+                    if(model.updateLocation())
+                    {
+                        view.displayShips()
+                        view.clearOrientation()
+                        model.boxClicked = -1
+                        view.removeSetupPhaseText()
+                        model.gameState = 2
+                        model.gamePhase()
+                    }
+                    else
+                    {
+                        view.clearOrientation()
+                        model.boxClicked = -1
+                        model.placementCounter -=1
+                        view.removeSetupPhaseText()
+                        model.turnFunc()
+                        
+                    }
+                }
                 //If the current player is player 2
-                else
+                else if(model.modelprompt == 1)
                 {
                     if(model.updateLocation())
                     {
@@ -432,6 +457,7 @@ const view =
             //Deletes the submit button at the end of the setup
             view.body.querySelector(`[data-button = "${2}"]`).remove()
         })
+        
 
         //Creating a button to indicate when to switch turns
         let turnButton = document.createElement("button")
@@ -446,6 +472,31 @@ const view =
             model.placementCounter = 0
             view.body.querySelector(`[data-button = "${1}"]`).remove()
             model.turnFunc()
+            
+            if(model.modelprompt == 2) // it is the AI mode simulate click a ramdom point
+            {
+                
+                for (let i = 0; i < model.promptVar; i++)
+                {
+                    do
+                    {
+                        var num = this.getRandomInt(0,89) //random point
+                        var ori = this.getRandomInt(0,3) //random origination
+                        view.userOrientSelected = ori
+                        view.orientSelected = 1
+                        var tempbox = document.getElementById(num)
+                        model.boxClicked = num
+                    }while (!view.checkplace())
+                    tempbox.click()
+                    
+                    view.body.querySelector(`[data-button = "${2}"]`).click()
+                    
+                }
+                
+                
+            }
+            
+            
         })
 
         //add the tags to the body of the html file to be displayed
@@ -453,6 +504,7 @@ const view =
         view.body.appendChild(subButton)
         view.body.appendChild(shipNum)
         view.body.appendChild(playerTag)
+        
 
     },
 
@@ -752,4 +804,68 @@ const view =
         view.body.appendChild(gameButton)
 
     },
+
+
+    /////////////////////new part////////////////////////
+
+
+
+    /**
+     * This function takes random number reference by website
+     *
+     * @function getRandomInt
+     * @pre set up min and max
+     * @post return random numbers 
+     */
+    
+    getRandomInt: function (min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    },
+	
+	/**
+     * This function checks the if the ships are placed correclty
+     *
+     * @function checkplace
+     * @pre 
+     * @post true for correct place, else false
+     */
+    checkplace: function()
+    {
+        if(view.userOrientSelected == 0)
+            {
+                var tempVar  = -10
+            }
+            else if(view.userOrientSelected == 1)
+            {
+                var tempVar = 1
+            }
+            else if(view.userOrientSelected == 2)
+            {
+                var tempVar = 10
+            }
+            else if(view.userOrientSelected == 3)
+            {
+                var tempVar = -1
+            }
+
+            for(let i=0; i<model.placementCounter; i++)
+            {
+                if(model.checkBounds() && model.checkOverlap())
+                {
+                    console.log(model.playerShips)
+                    model.boxClicked = model.boxClicked+tempVar
+                }
+                else
+                {
+                    return false
+                }
+            }
+            return true
+
+    }
+
+    
+
 }

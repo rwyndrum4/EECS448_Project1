@@ -886,7 +886,7 @@ const view =
     hitByAi: function()  {
         var tempbutton = document.getElementById("nextbutton")
         tempbutton.click()
-        if (model.aidifficulity == 1)
+        if (model.aidifficulty == 1)
         {
             do{
                 console.log("hit by ai")

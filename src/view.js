@@ -109,6 +109,7 @@ const view =
             temp2.setAttribute('src', 'images/blank2.png')
             temp2.setAttribute('id',100+i)
             temp2.setAttribute('data-id', 100+i)
+            temp2.onclick = view.boxClickEvent
             temp.addEventListener('click', view.boxClickEvent)
             temp2.addEventListener('click', view.boxClickEvent)
             view.boards[0].appendChild(temp)
@@ -562,6 +563,7 @@ const view =
         view.body.appendChild(title)
 
         let nxtButton = document.createElement("button")
+        nxtButton.setAttribute('id','nextbutton')
         nxtButton.innerText = "Next Turn"
 
         //Event listeners for the next turn button
@@ -631,6 +633,10 @@ const view =
                 view.clearLeftBoard()
                 view.clearRightBoard()
                 model.firstGamePhase = 0
+                if(model.player == 1 && model.modelprompt == 2)
+                {
+                    view.hitByAi()
+                }
             }
         })
         view.body.appendChild(nxtButton)
@@ -867,7 +873,28 @@ const view =
             }
             return true
 
-    }
+    },
+
+    /**
+     * This function takes random randomly get a position to hit
+     *
+     * @function hitByAi
+     * @pre 
+     * @post it works when player1 click "Next Turn"
+     */
+    
+    hitByAi: function()  {
+        var tempbutton = document.getElementById("nextbutton")
+        tempbutton.click()
+        if (model.aidifficulity == 1)
+        {
+            do{
+                var tempnum = view.getRandomInt(100,189)
+            }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))
+            var tempbox = document.getElementById(tempnum).click()
+        }
+    },
+
 
     
 

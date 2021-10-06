@@ -611,4 +611,72 @@ const model =
           } while(correct == 0)
      },
 
+     /**
+     * This function checks if the spot has already been hit
+     * @function checkHitAlreadyForAi
+     * @pre fire functions runs
+     * @post checks if the spot the user chose has been hit already and if not it will return true and if it has it will return false
+     * @returns {boolean}
+     */
+    checkHitAlreadyForAi: function (num)
+    {
+        for(let i = 0; i<model.promptVar; i++)
+        {
+            for(let j = 0; j< model.promptVar; j++)
+            {
+                if(model.shipsP1[i].hits[j] == num)
+                {
+                    return false
+                }
+            }
+        }
+        return true
+    },
+
+    /**
+     * This function checks if the user has missed already
+     *
+     * @function checkMissAlreadyForAi
+     * @pre fire function runs
+     * @post check to see if the user has missed already and if not the function will return true and if it has it will return false
+     * @returns {boolean}
+     */
+    checkMissAlreadyForAi: function (num)
+    {
+         for(let i=0; i < model.missCount; i++)
+         {
+             if(model.missesP1[i] == num)
+             {
+                 return false
+             }
+         }
+         return true
+     },
+
+     /**
+     * This function checks if the ships overlap
+     *
+     * @function extractShipTypeForAi
+     * @pre the update location function runs
+     * @post checks to make sure that the ship the user is placing doesn't overlap with the ships already placed
+     */
+    extractShipTypeForAi: function (num)
+    {
+        for(let i = 0; i<model.promptVar; i++)
+        {
+            for(let j = 0; j< model.promptVar; j++)
+            {
+                if(model.shipsP1[i].location[j]+100 == num)
+                {
+                    model.shipType =  i+1
+                    return
+                }
+                else
+                {
+                    model.shipType = -1
+                }
+            }
+        }
+    },
+
 }

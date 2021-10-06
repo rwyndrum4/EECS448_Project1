@@ -343,7 +343,7 @@ const view =
         subButton.innerText = "Submit"
         subButton.setAttribute('data-button', 2)
 
-        
+
         //Event listener for hitting the submit button
         subButton.addEventListener('click', () =>
         {
@@ -406,7 +406,7 @@ const view =
                     }
                 }
                 else if(model.player != 0 && model.modelprompt == 2) // if it is ai mode
-                {   
+                {
                     if(model.updateLocation())
                     {
                         view.displayShips()
@@ -423,7 +423,7 @@ const view =
                         model.placementCounter -=1
                         view.removeSetupPhaseText()
                         model.turnFunc()
-                        
+
                     }
                 }
                 //If the current player is player 2
@@ -461,7 +461,7 @@ const view =
             //Deletes the submit button at the end of the setup
             view.body.querySelector(`[data-button = "${2}"]`).remove()
         })
-        
+
 
         //Creating a button to indicate when to switch turns
         let turnButton = document.createElement("button")
@@ -476,10 +476,10 @@ const view =
             model.placementCounter = 0
             view.body.querySelector(`[data-button = "${1}"]`).remove()
             model.turnFunc()
-            
+
             if(model.modelprompt == 2) // it is the AI mode simulate click a ramdom point
             {
-                
+
                 for (let i = 0; i < model.promptVar; i++)
                 {
                     do
@@ -492,15 +492,15 @@ const view =
                         model.boxClicked = num
                     }while (!view.checkplace())
                     tempbox.click()
-                    
+
                     view.body.querySelector(`[data-button = "${2}"]`).click()
-                    
+
                 }
-                
-                
+
+
             }
-            
-            
+
+
         })
 
         //add the tags to the body of the html file to be displayed
@@ -508,7 +508,7 @@ const view =
         view.body.appendChild(subButton)
         view.body.appendChild(shipNum)
         view.body.appendChild(playerTag)
-        
+
 
     },
 
@@ -824,20 +824,20 @@ const view =
      *
      * @function getRandomInt
      * @pre set up min and max
-     * @post return random numbers 
+     * @post return random numbers
      */
-    
+
     getRandomInt: function (min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
     },
-	
+
 	/**
      * This function checks the if the ships are placed correclty
      *
      * @function checkplace
-     * @pre 
+     * @pre
      * @post true for correct place, else false
      */
     checkplace: function()
@@ -879,23 +879,25 @@ const view =
      * This function takes random randomly get a position to hit
      *
      * @function hitByAi
-     * @pre 
+     * @pre
      * @post it works when player1 click "Next Turn"
      */
-    
+
     hitByAi: function()  {
         var tempbutton = document.getElementById("nextbutton")
         tempbutton.click()
         if (model.aidifficulity == 1)
         {
             do{
+                console.log("hit by ai")
                 var tempnum = view.getRandomInt(100,189)
+                console.log(tempnum)
             }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))
             var tempbox = document.getElementById(tempnum).click()
         }
     },
 
 
-    
+
 
 }

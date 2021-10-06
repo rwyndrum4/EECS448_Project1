@@ -577,10 +577,10 @@ const model =
 
      /**
       * variable used to determine the AI difficulity
-      * @member aidifficulity
+      * @member aidifficulty
       * @type {number}
       */
-     aidifficulity: 0,
+     aidifficulty: 0,
 
      /**
       * This function runs the prompt to choose the part of AI
@@ -602,8 +602,8 @@ const model =
                  {
                      do
                      {
-                         this.aidifficulity = prompt("which difficulitiy of AI opponent do you want to choose? \n(1.easy 2.medium 3.hard)")
-                     }while (this.aidifficulity != 1 && this.aidifficulity != 2 && this.aidifficulity != 3);
+                         this.aidifficulty = prompt("which difficulitiy of AI opponent do you want to choose? \n(1.easy 2.medium 3.hard)")
+                     }while (this.aidifficulty != 1 && this.aidifficulty != 2 && this.aidifficulty != 3);
 
                  }
                   correct = 1

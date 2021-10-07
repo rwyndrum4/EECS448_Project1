@@ -1027,30 +1027,25 @@ const view =
             }
             if (this.mediumDifficultyOrientation == 1)
             {
-                alert("1")
                 do
                 {
                     correct = 1
                     if(this.mediumDifficultyNextPoint.right+1 > 90 || this.mediumDifficultyNextPoint.right +1 % 10 == 0)
                     {
-                        alert('2')
                         this.mediumDifficultyOrientation++
                         break
                     }
                     else if (!model.checkMissAlreadyForAi(this.mediumDifficultyNextPoint.right +1 +100))
                     {
-                        alert('3')
                         this.mediumDifficultyOrientation++
                         break
                     }else if (!model.checkHitAlreadyForAi(this.mediumDifficultyNextPoint.right +1 +100))
                     {
-                        alert('4')
                         this.mediumDifficultyNextPoint.right = this.mediumDifficultyNextPoint.right + 1
                         correct = 0
                     }
                     else
                     {
-                        alert('5')
                         this.mediumDifficultyNextPoint.right = this.mediumDifficultyNextPoint.right + 1
                         if(!model.storeShipsForAi.includes(this.mediumDifficultyNextPoint.right))
                         {

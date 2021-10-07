@@ -817,6 +817,46 @@ const view =
 
     /////////////////////new part////////////////////////
 
+    /**
+     * Variable used to store ships's times for hard model
+     *
+     * @member hardDifficultynum
+     * @type {number}
+     */
+    hardDifficultynum: 0,
+
+    /**
+     * Variable used to store mediun difficulty's point when hitted the ship
+     *
+     * @member mediumDifficultyStartPoint
+     * @type  {number}
+     */
+     mediumDifficultyStartPoint: -1,
+
+    /**
+     * Variable used to store mediun difficulty's next point to hit
+     *
+     * @member mediumDifficultyNextPoint
+     * @type  
+     */
+    mediumDifficultyNextPoint: { up:0, righ:0, down:0, left:0 },
+
+    /**
+     * Variable used to store mediun difficulty's next point to hit
+     *
+     * @member mediumDifficultyOrientation
+     * @type  {number}
+     */
+    mediumDifficultyOrientation: 0,
+
+    /**
+     * Variable used to store mediun difficulty's next point to hit
+     *
+     * @member mediumDifficultyShipType
+     * @type  {number}
+     */
+    mediumDifficultyShipType: -1,
+
 
 
     /**
@@ -876,7 +916,7 @@ const view =
     },
 
     /**
-     * This function takes random randomly get a position to hit
+     * This function takes randomly get a position to hit
      *
      * @function hitByAi
      * @pre
@@ -889,13 +929,199 @@ const view =
         if (model.aidifficulty == 1)
         {
             do{
-                console.log("hit by ai")
                 var tempnum = view.getRandomInt(100,189)
-                console.log(tempnum)
             }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))
             var tempbox = document.getElementById(tempnum).click()
         }
+        if(model.aidifficulty == 2)
+        {
+            this.mediumHit()
+        }
+        if (model.aidifficulty == 3)
+        {
+            var tempbox = document.getElementById(model.storeShipsForAi[this.hardDifficultynum]+100).click()
+            this.hardDifficultynum ++
+        }
     },
+
+    /**
+     * This function get an hit for mediun model
+     *
+     * @function mediumHit
+     * @pre
+     * @post 
+     */
+    mediumHit: function()
+     {
+        if(this.mediumDifficultyStartPoint != -1)
+        {
+            if(model.shipsP1[mediumDifficultyShipType].hits.length == mediumDifficultyShipType + 1)
+           {
+                this.mediumDifficultyStartPoint = -1
+                this.mediumDifficultyOrientation = 0
+
+           }
+        }
+        if(this.mediumDifficultyStartPoint == -1)
+        {
+            do{
+                var tempnum = view.getRandomInt(100,189)
+            }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))
+            if(model.storeShipsForAi.includes(tempnum - 100))
+            {
+                this.mediumDifficultyStartPoint = tempnum - 100
+                this.mediumDifficultyNextPoint.up = tempnum - 100
+                this.mediumDifficultyNextPoint.right = tempnum - 100
+                this.mediumDifficultyNextPoint.down = tempnum - 100
+                this.mediumDifficultyNextPoint.left = tempnum - 100
+                for(let i = 0; i<model.promptVar; i++)
+                {
+                    if(model.shipsP1[i].location.includes(tempnum - 100))
+                    {
+                        mediumDifficultyShipType = i
+                    }
+                }
+            }
+            var tempbox = document.getElementById(tempnum).click()
+        }
+        else
+        {
+            var correct = 1
+            if(this.mediumDifficultyOrientation  == 0)
+            {
+                if(model.shipsP1[mediumDifficultyShipType].hits.length == mediumDifficultyShipType + 1)
+                {
+                    this.mediumDifficultyStartPoint = -1
+                    this.mediumDifficultyOrientation = 0
+                }
+                
+                do
+                {
+                    correct = 1
+                    if(this.mediumDifficultyNextPoint.up - 10 < 0)
+                    {
+                        this.mediumDifficultyOrientation++
+                        break
+                    }
+                    else if (!model.checkMissAlreadyForAi(this.mediumDifficultyNextPoint.up - 10+100))
+                    {
+                        this.mediumDifficultyOrientation++
+                        break
+                    }else if (!model.checkHitAlreadyForAi(this.mediumDifficultyNextPoint.up - 10+100))
+                    {
+                        this.mediumDifficultyNextPoint.up = this.mediumDifficultyNextPoint.up - 10
+                        correct = 0
+                    }
+                    else
+                    {
+                        this.mediumDifficultyNextPoint.up = this.mediumDifficultyNextPoint.up - 10
+                        if(!model.storeShipsForAi.includes(this.mediumDifficultyNextPoint.up))
+                        {
+                            this.mediumDifficultyOrientation++
+                        }
+                        document.getElementById(this.mediumDifficultyNextPoint.up+100).click()
+                    }
+                }while(correct == 0)
+               
+
+            }
+            if (this.mediumDifficultyOrientation == 1)
+            {
+                alert("1")
+                do
+                {
+                    correct = 1
+                    if(this.mediumDifficultyNextPoint.right+1 > 90 || this.mediumDifficultyNextPoint.right +1 % 10 == 0)
+                    {
+                        alert('2')
+                        this.mediumDifficultyOrientation++
+                        break
+                    }
+                    else if (!model.checkMissAlreadyForAi(this.mediumDifficultyNextPoint.right +1 +100))
+                    {
+                        alert('3')
+                        this.mediumDifficultyOrientation++
+                        break
+                    }else if (!model.checkHitAlreadyForAi(this.mediumDifficultyNextPoint.right +1 +100))
+                    {
+                        alert('4')
+                        this.mediumDifficultyNextPoint.right = this.mediumDifficultyNextPoint.right + 1
+                        correct = 0
+                    }
+                    else
+                    {
+                        alert('5')
+                        this.mediumDifficultyNextPoint.right = this.mediumDifficultyNextPoint.right + 1
+                        if(!model.storeShipsForAi.includes(this.mediumDifficultyNextPoint.right))
+                        {
+                            this.mediumDifficultyOrientation++
+                        }
+                        document.getElementById(this.mediumDifficultyNextPoint.right+100).click()
+                    }
+                }while(correct == 0)
+
+            }
+            if (this.mediumDifficultyOrientation == 2)
+            {
+                do
+                {
+                    correct = 1
+                    if(this.mediumDifficultyNextPoint.down + 10 > 89)
+                    {
+                        this.mediumDifficultyOrientation++
+                        break
+                    }
+                    else if (!model.checkMissAlreadyForAi(this.mediumDifficultyNextPoint.down +10 +100))
+                    {
+                        this.mediumDifficultyOrientation++
+                        break
+                    }else if (!model.checkHitAlreadyForAi(this.mediumDifficultyNextPoint.down +10 +100))
+                    {
+                        this.mediumDifficultyNextPoint.down = this.mediumDifficultyNextPoint.down + 10
+                        correct = 0
+                    }
+                    else
+                    {
+                        this.mediumDifficultyNextPoint.down = this.mediumDifficultyNextPoint.down + 10
+                        if(!model.storeShipsForAi.includes(this.mediumDifficultyNextPoint.down))
+                        {
+                            this.mediumDifficultyOrientation++
+                        }
+                        document.getElementById(this.mediumDifficultyNextPoint.down+100).click()
+                    }
+                }while(correct == 0)
+
+            }
+            if(this.mediumDifficultyOrientation == 3)
+            {
+                do
+                {
+                    correct = 1
+                    if(this.mediumDifficultyNextPoint.left - 1 < 0 || this.mediumDifficultyNextPoint.left - 1 % 10 == 9)
+                    {
+                        alert('h')
+                        break
+                    }
+                    else if (!model.checkMissAlreadyForAi(this.mediumDifficultyNextPoint.left -1 +100))
+                    {
+                        alert('h')
+                        break
+                    }else if (!model.checkHitAlreadyForAi(this.mediumDifficultyNextPoint.left -1 +100))
+                    {
+                        this.mediumDifficultyNextPoint.left = this.mediumDifficultyNextPoint.left -1
+                        correct = 0
+                    }
+                    else
+                    {
+                        this.mediumDifficultyNextPoint.left = this.mediumDifficultyNextPoint.left + -1
+                        document.getElementById(this.mediumDifficultyNextPoint.left+100).click()
+                    }
+                }while(correct == 0)
+
+            }
+
+        }
+     },
 
 
 

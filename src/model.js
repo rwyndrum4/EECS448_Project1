@@ -248,6 +248,11 @@ const model =
         if(model.placementCounter == 1)
         {
             model.playerShips[model.placementCounter-1].location.push(model.boxClicked)
+            if (this.player == 0)
+            {
+                model.storeShipsForAi.push(model.boxClicked)
+            }
+            
             console.log(model.playerShips)
             return true
         }
@@ -275,6 +280,10 @@ const model =
                 if(model.checkBounds() && model.checkOverlap())
                 {
                     model.playerShips[model.placementCounter-1].location.push(model.boxClicked)
+                    if (this.player == 0)
+                    {
+                        model.storeShipsForAi.push(model.boxClicked)
+                    }
                     console.log(model.playerShips)
                     model.pushedItems += 1
                     model.boxClicked = model.boxClicked+tempVar
@@ -589,6 +598,15 @@ const model =
       * @pre the setup phase starts
       * @post prompts the user to chose a number between 1 and 2 for model and 1-3 for AI difficulity
       */
+
+    /**
+      * store ships for ai
+      *
+      * @function storeShipsForAi
+      * @pre 
+      * @post 
+      */
+    storeShipsForAi: [],
 
      modelchoose: function()
       {

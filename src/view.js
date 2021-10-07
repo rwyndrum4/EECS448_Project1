@@ -334,7 +334,7 @@ const view =
         playerTag.setAttribute('data-player', model.player)
 
         let instruct = document.createElement("h3")
-        instruct.innerText = "Turn away from your opponent, then place pieces by clicking on the spot you want the ship to start in. After that the orientation will be displayed, then click on the orientation you would prefer, and then hit the submit button"
+        instruct.innerText = "Turn away from your opponent, then place pieces by clicking on the spot you want the ship to start in. Next, select your orientation on the right side. Finally, confirm your position/orientation by clicking submit"
 
         let shipNum = document.createElement("h4")
         shipNum.innerText = "Please place your " + model.placementCounter + " length ship"
@@ -496,6 +496,7 @@ const view =
                     view.body.querySelector(`[data-button = "${2}"]`).click()
 
                 }
+                view.body.querySelector(`[data-button = "${3}"]`).click()
 
 
             }
@@ -636,6 +637,7 @@ const view =
                 if(model.player == 1 && model.modelprompt == 2)
                 {
                     view.hitByAi()
+                    nxtButton.click()
                 }
             }
         })
@@ -837,7 +839,7 @@ const view =
      * Variable used to store mediun difficulty's next point to hit
      *
      * @member mediumDifficultyNextPoint
-     * @type  
+     * @type
      */
     mediumDifficultyNextPoint: { up:0, righ:0, down:0, left:0 },
 
@@ -932,15 +934,21 @@ const view =
                 var tempnum = view.getRandomInt(100,189)
             }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))
             var tempbox = document.getElementById(tempnum).click()
+            nextbutton.click()
+            nextbutton.click()
         }
         if(model.aidifficulty == 2)
         {
             this.mediumHit()
+            nextbutton.click()
+            nextbutton.click()
         }
         if (model.aidifficulty == 3)
         {
             var tempbox = document.getElementById(model.storeShipsForAi[this.hardDifficultynum]+100).click()
             this.hardDifficultynum ++
+            nextbutton.click()
+            nextbutton.click()
         }
     },
 
@@ -949,7 +957,7 @@ const view =
      *
      * @function mediumHit
      * @pre
-     * @post 
+     * @post
      */
     mediumHit: function()
      {
@@ -994,7 +1002,7 @@ const view =
                     this.mediumDifficultyStartPoint = -1
                     this.mediumDifficultyOrientation = 0
                 }
-                
+
                 do
                 {
                     correct = 1
@@ -1022,7 +1030,7 @@ const view =
                         document.getElementById(this.mediumDifficultyNextPoint.up+100).click()
                     }
                 }while(correct == 0)
-               
+
 
             }
             if (this.mediumDifficultyOrientation == 1)

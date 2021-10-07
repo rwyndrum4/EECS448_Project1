@@ -252,7 +252,7 @@ const model =
             {
                 model.storeShipsForAi.push(model.boxClicked)
             }
-            
+
             console.log(model.playerShips)
             return true
         }
@@ -603,8 +603,8 @@ const model =
       * store ships for ai
       *
       * @function storeShipsForAi
-      * @pre 
-      * @post 
+      * @pre
+      * @post
       */
     storeShipsForAi: [],
 
@@ -613,14 +613,14 @@ const model =
           let correct = 0
           do
           {
-              model.modelprompt = prompt("which model do you want to play with! \n(player2: 1,  ai opponent: 2)")
+              model.modelprompt = prompt("Which model do you want to play with? \n(Two players: 1,  AI opponent: 2)")
               if(model.modelprompt >= 1 && model.modelprompt <= 2)
               {
                  if (model.modelprompt == 2 )
                  {
                      do
                      {
-                         this.aidifficulty = prompt("which difficulitiy of AI opponent do you want to choose? \n(1.easy 2.medium 3.hard)")
+                         this.aidifficulty = prompt("Which difficulty of AI would you like?\n(1.easy 2.medium 3.hard)")
                      }while (this.aidifficulty != 1 && this.aidifficulty != 2 && this.aidifficulty != 3);
 
                  }

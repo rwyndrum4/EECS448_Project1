@@ -928,26 +928,26 @@ const view =
     hitByAi: function()  {
         var tempbutton = document.getElementById("nextbutton")
         tempbutton.click()
-        if (model.aidifficulty == 1)
+        if (model.aidifficulty == 1)//easy mode AI
         {
             do{
-                var tempnum = view.getRandomInt(100,189)
-            }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))
-            var tempbox = document.getElementById(tempnum).click()
-            nextbutton.click()
-            nextbutton.click()
-        }
-        if(model.aidifficulty == 2)
-        {
-            this.mediumHit()
-            nextbutton.click()
+                var tempnum = view.getRandomInt(100,189)//gets a random int on the right board to place a target at
+            }while(!model.checkMissAlreadyForAi(tempnum) || !model.checkHitAlreadyForAi(tempnum))//checks to make sure that the spot hasnt already been shot at before
+            var tempbox = document.getElementById(tempnum).click()//clicks on the spot at the passed random int.
+            nextbutton.click()//clicks the buttons so that the player does not see the AI placement of a target and its ships.
             nextbutton.click()
         }
-        if (model.aidifficulty == 3)
+        if(model.aidifficulty == 2)//medium mode AI
         {
-            var tempbox = document.getElementById(model.storeShipsForAi[this.hardDifficultynum]+100).click()
+            this.mediumHit()//calls the function mediumHit on line 962
+            nextbutton.click()//clicks the buttons so that the player does not see the AI placement of a target and its ships.
+            nextbutton.click()
+        }
+        if (model.aidifficulty == 3)//hard mode AI
+        {
+            var tempbox = document.getElementById(model.storeShipsForAi[this.hardDifficultynum]+100).click()//uses the storeShipsForAi array to get each ship location and then destroy them.
             this.hardDifficultynum ++
-            nextbutton.click()
+            nextbutton.click()//clicks the buttons so that the player does not see the AI placement of a target and its ships.
             nextbutton.click()
         }
     },

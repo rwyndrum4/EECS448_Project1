@@ -843,7 +843,7 @@ const view =
      * Variable used to store mediun difficulty's next point to hit
      *
      * @member mediumDifficultyNextPoint
-     * @type
+     * @type {number}
      */
     mediumDifficultyNextPoint: { up:0, righ:0, down:0, left:0 },
 
@@ -883,7 +883,6 @@ const view =
      * This function checks the if the ships are placed correclty
      *
      * @function checkplace
-     * @pre
      * @post true for correct place, else false
      */
     checkplace: function()
@@ -925,7 +924,6 @@ const view =
      * This function takes randomly get a position to hit
      *
      * @function hitByAi
-     * @pre
      * @post it works when player1 click "Next Turn"
      */
 
@@ -960,8 +958,6 @@ const view =
      * This function get an hit for mediun model
      *
      * @function mediumHit
-     * @pre
-     * @post
      */
     mediumHit: function()
      {
@@ -1132,7 +1128,6 @@ const view =
 
      /**
      * This function displays the missed hits
-     *
      * @function displayMissesForAi
      * @pre None
      * @post Displays the misses of the Ai

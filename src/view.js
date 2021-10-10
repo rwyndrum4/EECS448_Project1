@@ -585,6 +585,10 @@ const view =
 
                 view.body.appendChild(view.gamePhasePlayerTag)
                 view.displayShips()
+                if(model.modelprompt == 2 && model.player == 0)
+                {
+                    view.displayMissesForAi()
+                }
                 model.changeTurn()
                 view.displayHits()
                 view.displaySunk()
@@ -1125,6 +1129,21 @@ const view =
 
         }
      },
+
+     /**
+     * This function displays the missed hits
+     *
+     * @function displayMissesForAi
+     * @pre None
+     * @post Displays the misses of the Ai
+     */
+    displayMissesForAi: function ()
+    {
+        for(i=0; i<model.missesP1.length; i++)
+        {
+            document.getElementById(model.missesP1[i]-100).setAttribute('src', 'images/waves.png')
+        }
+    },
 
 
 

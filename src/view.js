@@ -845,7 +845,7 @@ const view =
      * @member mediumDifficultyNextPoint
      * @type {number}
      */
-    mediumDifficultyNextPoint: { up:0, righ:0, down:0, left:0 },
+    mediumDifficultyNextPoint: { up:0, right:0, down:0, left:0 },
 
     /**
      * Variable used to store mediun difficulty's next point to hit
@@ -1039,8 +1039,13 @@ const view =
                 do
                 {
                     correct = 1
-                    if(this.mediumDifficultyNextPoint.right+1 > 90 || this.mediumDifficultyNextPoint.right +1 % 10 == 0)
+                    if(this.mediumDifficultyNextPoint.right+1 > 90)
                     {
+                        this.mediumDifficultyOrientation++
+                        break
+                    }
+                    else if((this.mediumDifficultyNextPoint.right +1) % 10 == 0)
+                    { 
                         this.mediumDifficultyOrientation++
                         break
                     }
@@ -1103,7 +1108,7 @@ const view =
                 do
                 {
                     correct = 1
-                    if(this.mediumDifficultyNextPoint.left - 1 < 0 || this.mediumDifficultyNextPoint.left - 1 % 10 == 9)
+                    if(this.mediumDifficultyNextPoint.left - 1 < 0 || (this.mediumDifficultyNextPoint.left - 1) % 10 == 9)
                     {
                         alert('h')
                         break

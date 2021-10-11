@@ -1028,6 +1028,7 @@ const view =
                             this.mediumDifficultyOrientation++
                         }
                         document.getElementById(this.mediumDifficultyNextPoint.up+100).click()
+                        return 0
                     }
                 }while(correct == 0)
 
@@ -1060,6 +1061,7 @@ const view =
                             this.mediumDifficultyOrientation++
                         }
                         document.getElementById(this.mediumDifficultyNextPoint.right+100).click()
+                        return 0
                     }
                 }while(correct == 0)
 
@@ -1091,6 +1093,7 @@ const view =
                             this.mediumDifficultyOrientation++
                         }
                         document.getElementById(this.mediumDifficultyNextPoint.down+100).click()
+                        return 0
                     }
                 }while(correct == 0)
 
@@ -1118,6 +1121,7 @@ const view =
                     {
                         this.mediumDifficultyNextPoint.left = this.mediumDifficultyNextPoint.left + -1
                         document.getElementById(this.mediumDifficultyNextPoint.left+100).click()
+                        return 0
                     }
                 }while(correct == 0)
 
